@@ -1,0 +1,170 @@
+#
+# GetCitrixDDCInformation.ps1
+#
+
+# Import mudlules
+Import-Module .\Modules\ModCredential\ModCredential.psm1
+Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module .\Modules\ModReadConfig\ModReadConfig.psm1
+Import-Module .\Modules\ModInvokeCommand\ModInvokeCommand.psm1
+Import-Module .\Modules\ModInputDatabase\ModInputDatabase.psm1
+Import-Module .\Modules\ModDDCDataOutputDatabase\ModDDCDataOutputDatabase.psm1
+
+# {------ Function Get-BrokerApplicationInstance ------
+
+# Function Get-BrokerApplicationInstance
+function Fun_BrokerApplicationInstance
+{
+	param ($ComputerName, $Credential)
+	# Set scriptblock
+	$ScriptBlock=
+	{
+		Add-PSSnapin Citrix*; 
+		Get-BrokerApplicationInstance
+	}
+
+	# Sign me as ddc 
+	$CallFrom="DDC Get-BrokerApplicationInstance"
+
+	# Get Citrix DDC's information
+	$DDCInformation=Fun_InvokeCommand $ComputerName $Credential $ScriptBlock $CallFrom
+	if ($DDCInformation -eq $false)
+	{
+		$LogMessage="Log from GetCitrixDDCInformation.ps1 Invoke-command DDC Get-BrokerApplicationInstance 数据失败"
+		Fun_OutputLogs $LogMessage
+	}
+
+	# Data variables
+	$ApplicationName=$DDCInformation.ApplicationName
+	$MachineName=$DDCInformation.MachineName
+	$SessionKey=$DDCInformation.SessionKey
+	$UserName=$DDCInformation.UserName
+	$GetTime=Get-Date
+
+	# Sql query statements
+	$Query="
+	use WebReport; 
+	insert into dbo.BrokerApplicationInstance 
+	(
+		ApplicationName, 
+		MachineName, 
+		SessionKey, 
+		UserName, 
+		GetTime
+	) 
+	values 
+	(
+		'$ApplicationName',
+		'$MachineName',
+		'$SessionKey',
+		'$UserName',
+		'$GetTime'
+	)"
+
+	# Output DDC Get-BrokerApplicationInstance to table dbo.BrokerApplicationInstance
+	Fun_DDCDataOutputDatabase $Query
+}
+
+# ------ Function Get-BrokerApplicationInstance ------}
+
+
+# {------ Function Get-BrokerSession ------
+
+# Function Get-BrokerSession
+function Fun_BrokerSession
+{
+	param ($ComputerName, $Credential)
+	# Set scriptblock
+	$ScriptBlock=
+	{
+		Add-PSSnapin Citrix*; 
+		Get-BrokerSession
+	}
+
+	# Sign me as ddc 
+	$CallFrom="DDC Get-BrokerSession"
+
+	# Get Citrix DDC's information
+	$DDCInformation=Fun_InvokeCommand $ComputerName $Credential $ScriptBlock $CallFrom
+	if ($DDCInformation -eq $false)
+	{
+		$LogMessage="Log from GetCitrixDDCInformation.ps1 Invoke-command DDC Get-BrokerSession 数据失败"
+		Fun_OutputLogs $LogMessage
+	}
+
+	# Data variables
+	$AppState=$DDCInformation.AppState
+	$ApplicationsInUse=$DDCInformation.ApplicationsInUse
+	$ConnectedViaHostName=$DDCInformation.ConnectedViaHostName
+	$ConnectedViaIP=$DDCInformation.ConnectedViaIP
+	$DesktopGroupName=$DDCInformation.DesktopGroupName
+	$MachineName=$DDCInformation.MachineName
+	$SessionKey=$DDCInformation.SessionKey
+	$SessionState=$DDCInformation.SessionState
+	$UserFullName=$DDCInformation.UserFullName
+	$UserName=$DDCInformation.UserName
+	$GetTime=Get-Date
+
+	# Sql query statements
+	$Query="
+	use WebReport; 
+	insert into dbo.BrokerSession 
+	(
+		AppState,
+		ApplicationsInUse,
+		ConnectedViaHostName,
+		ConnectedViaIP,
+		DesktopGroupName,
+		MachineName,
+		SessionKey,
+		SessionState,
+		UserFullName,
+		UserName,
+		GetTime
+	) 
+	values 
+	(
+		'$AppState',
+		'$ApplicationsInUse',
+		'$ConnectedViaHostName',
+		'$ConnectedViaIP',
+		'$DesktopGroupName',
+		'$MachineName',
+		'$SessionKey',
+		'$SessionState',
+		'$UserFullName',
+		'$UserName',
+		'$GetTime'
+	)"
+
+	# Output DDC Get-BrokerSession to table dbo.BrokerSession
+	Fun_DDCDataOutputDatabase $Query
+}
+
+# ------ Function Get-BrokerSession ------}
+
+
+# ------ DDC Main ------
+
+# Citrix DDC's computername
+$ComputerNameKey="DDCComputerName"
+$ComputerName=Fun_ReadConfig $ComputerNameKey
+
+# Citrix DDC's username
+$UserNameKey="DDCUserName"
+$UserName=Fun_ReadConfig $UserNameKey
+
+# Citrix DDC's password
+$PasswordKey="DDCPassword"
+$Password=Fun_ReadConfig $PasswordKey
+
+# Get credential variable
+$Credential=Fun_Credential $UserName $Password
+
+# Call Function Get-BrokerApplicationInstance
+Fun_BrokerApplicationInstance $ComputerName $Credential 
+
+# Call Function Get-BrokerSession
+Fun_BrokerSession $ComputerName $Credential
+
+
