@@ -62,7 +62,7 @@ function Fun_BrokerApplicationInstance
 	)"
 
 	# Output DDC Get-BrokerApplicationInstance to table dbo.BrokerApplicationInstance
-	Fun_DDCDataOutputDatabase $Query
+	Fun_DDCDataOutputDatabase $Query $CallFrom
 }
 
 # ------ Function Get-BrokerApplicationInstance ------}
@@ -138,7 +138,7 @@ function Fun_BrokerSession
 	)"
 
 	# Output DDC Get-BrokerSession to table dbo.BrokerSession
-	Fun_DDCDataOutputDatabase $Query
+	Fun_DDCDataOutputDatabase $Query $CallFrom
 }
 
 # ------ Function Get-BrokerSession ------}

@@ -10,7 +10,7 @@ Import-Module .\Modules\ModInputDatabase\ModInputDatabase.psm1
 # Output ddc data to Database
 function Fun_DDCDataOutputDatabase
 {
-	param ($Query)
+	param ($Query, $CallFrom)
 	# Database serverinstance
 	$SQLServerInstanceKey="SqlServerIntance"
 	$SQLServerInstance=Fun_ReadConfig $SQLServerInstanceKey
