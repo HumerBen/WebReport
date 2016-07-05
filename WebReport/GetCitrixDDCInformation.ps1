@@ -154,6 +154,9 @@ function Fun_BrokerSession
 
 # ------ DDC Main ------
 
+# Set runtime Location
+Set-Location "C:\WebReport"
+
 # Citrix DDC's computername
 $ComputerNameKey="DDCComputerName"
 $ComputerName=Fun_ReadConfig $ComputerNameKey
