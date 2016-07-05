@@ -54,7 +54,6 @@
     <Compile Include="Modules\ModOutputLogs\ModOutputLogs.psm1" />
     <Compile Include="Modules\ModReadConfig\ModReadConfig.psd1" />
     <Compile Include="Modules\ModReadConfig\ModReadConfig.psm1" />
-    <Compile Include="RunScripts.ps1" />
     <Compile Include="SQL.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
