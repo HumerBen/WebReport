@@ -34,35 +34,39 @@ function Fun_BrokerApplicationInstance
 		Fun_OutputLogs $LogMessage
 	}
 
-	# Data variables
-	$ApplicationName=$DDCInformation.ApplicationName
-	$MachineName=$DDCInformation.MachineName
-	$SessionKey=$DDCInformation.SessionKey
-	$UserName=$DDCInformation.UserName
-	$GetTime=Get-Date
+	# Insert data into database with foreach
+	foreach ($DDCInformationLine in $DDCInformation)
+	{
+		# Data variables
+		$ApplicationName=$DDCInformationLine.ApplicationName
+		$MachineName=$DDCInformationLine.MachineName
+		$SessionKey=$DDCInformationLine.SessionKey
+		$UserName=$DDCInformationLine.UserName
+		$GetTime=Get-Date
 
-	# Sql query statements
-	$Query="
-	use WebReport; 
-	insert into dbo.BrokerApplicationInstance 
-	(
-		ApplicationName, 
-		MachineName, 
-		SessionKey, 
-		UserName, 
-		GetTime
-	) 
-	values 
-	(
-		'$ApplicationName',
-		'$MachineName',
-		'$SessionKey',
-		'$UserName',
-		'$GetTime'
-	)"
+		# Sql query statements
+		$Query="
+		use CamcWebReport; 
+		insert into dbo.BrokerApplicationInstance 
+		(
+			ApplicationName, 
+			MachineName, 
+			SessionKey, 
+			UserName, 
+			GetTime
+		) 
+		values 
+		(
+			'$ApplicationName',
+			'$MachineName',
+			'$SessionKey',
+			'$UserName',
+			'$GetTime'
+		)"
 
-	# Output DDC Get-BrokerApplicationInstance to table dbo.BrokerApplicationInstance
-	Fun_DDCDataOutputDatabase $Query $CallFrom
+		# Output DDC Get-BrokerApplicationInstance to table dbo.BrokerApplicationInstance
+		Fun_DDCDataOutputDatabase $Query $CallFrom
+	}
 }
 
 # ------ Function Get-BrokerApplicationInstance ------}
@@ -92,53 +96,57 @@ function Fun_BrokerSession
 		Fun_OutputLogs $LogMessage
 	}
 
-	# Data variables
-	$AppState=$DDCInformation.AppState
-	$ApplicationsInUse=$DDCInformation.ApplicationsInUse
-	$ConnectedViaHostName=$DDCInformation.ConnectedViaHostName
-	$ConnectedViaIP=$DDCInformation.ConnectedViaIP
-	$DesktopGroupName=$DDCInformation.DesktopGroupName
-	$MachineName=$DDCInformation.MachineName
-	$SessionKey=$DDCInformation.SessionKey
-	$SessionState=$DDCInformation.SessionState
-	$UserFullName=$DDCInformation.UserFullName
-	$UserName=$DDCInformation.UserName
-	$GetTime=Get-Date
+	# Insert data into database with foreach
+	foreach ($DDCInformationLine in $DDCInformation)
+	{
+		# Data variables
+		$AppState=$DDCInformationLine.AppState
+		$ApplicationsInUse=$DDCInformationLine.ApplicationsInUse
+		$ConnectedViaHostName=$DDCInformationLine.ConnectedViaHostName
+		$ConnectedViaIP=$DDCInformationLine.ConnectedViaIP
+		$DesktopGroupName=$DDCInformationLine.DesktopGroupName
+		$MachineName=$DDCInformationLine.MachineName
+		$SessionKey=$DDCInformationLine.SessionKey
+		$SessionState=$DDCInformationLine.SessionState
+		$UserFullName=$DDCInformationLine.UserFullName
+		$UserName=$DDCInformationLine.UserName
+		$GetTime=Get-Date
 
-	# Sql query statements
-	$Query="
-	use WebReport; 
-	insert into dbo.BrokerSession 
-	(
-		AppState,
-		ApplicationsInUse,
-		ConnectedViaHostName,
-		ConnectedViaIP,
-		DesktopGroupName,
-		MachineName,
-		SessionKey,
-		SessionState,
-		UserFullName,
-		UserName,
-		GetTime
-	) 
-	values 
-	(
-		'$AppState',
-		'$ApplicationsInUse',
-		'$ConnectedViaHostName',
-		'$ConnectedViaIP',
-		'$DesktopGroupName',
-		'$MachineName',
-		'$SessionKey',
-		'$SessionState',
-		'$UserFullName',
-		'$UserName',
-		'$GetTime'
-	)"
+		# Sql query statements
+		$Query="
+		use CamcWebReport; 
+		insert into dbo.BrokerSession 
+		(
+			AppState,
+			ApplicationsInUse,
+			ConnectedViaHostName,
+			ConnectedViaIP,
+			DesktopGroupName,
+			MachineName,
+			SessionKey,
+			SessionState,
+			UserFullName,
+			UserName,
+			GetTime
+		) 
+		values 
+		(
+			'$AppState',
+			'$ApplicationsInUse',
+			'$ConnectedViaHostName',
+			'$ConnectedViaIP',
+			'$DesktopGroupName',
+			'$MachineName',
+			'$SessionKey',
+			'$SessionState',
+			'$UserFullName',
+			'$UserName',
+			'$GetTime'
+		)"
 
-	# Output DDC Get-BrokerSession to table dbo.BrokerSession
-	Fun_DDCDataOutputDatabase $Query $CallFrom
+		# Output DDC Get-BrokerSession to table dbo.BrokerSession
+		Fun_DDCDataOutputDatabase $Query $CallFrom
+	}
 }
 
 # ------ Function Get-BrokerSession ------}
