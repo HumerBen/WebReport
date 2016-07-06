@@ -158,6 +158,7 @@ function Fun_BrokerSession
 
 # Start scripts 
 $Logmessage="Starting scripts ......"
+Fun_OutputLogs $Logmessage
 
 # Citrix DDC's computername
 $ComputerNameKey="DDCComputerName"
