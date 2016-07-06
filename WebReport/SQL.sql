@@ -1,5 +1,5 @@
 ﻿create database WebReport
-
+------------------------dbo.BrokerApplicationInstance---------------------------
 use WebReport
 create table dbo.BrokerApplicationInstance
 (
@@ -17,7 +17,7 @@ select * from dbo.BrokerApplicationInstance
 use WebReport
 drop table dbo.BrokerApplicationInstance
 
-
+-------------------------dbo.BrokerSession-----------------------------------
 use WebReport
 create table dbo.BrokerSession
 (
@@ -40,3 +40,14 @@ select * from dbo.BrokerSession
 
 use WebReport
 drop table dbo.BrokerSession
+
+--------------------------dbo.BrokerApplicationInstance-----------------------------
+
+use WebReport
+create table dbo.DepartmentsUsers
+(
+ID int identity(1,1) primary key,
+UserName varchar(255),
+FullUserName varchar(255),
+Department varchar(255)
+)
