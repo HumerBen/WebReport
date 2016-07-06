@@ -7,10 +7,10 @@ function Fun_OutputLogs
 {
 	param($LogMessage)
 	$CurentDate=Get-Date -UFormat "%Y-%m-%d"
-	$LogPath="$WorkPath\Logs\$CurentDate.log"
-	if (!(Test-Path -Path $WorkPath\Logs))
+	$LogPath=".\Logs\$CurentDate.log"
+	if (!(Test-Path -Path .\Logs))
 	{
-		New-Item -Path $WorkPath\Logs -ItemType Directory | Out-Null
+		New-Item -Path .\Logs -ItemType Directory | Out-Null
 	}
 	$CurentTime=Get-Date -UFormat "%H:%M%:%S"
 	Out-File -FilePath $LogPath -InputObject "$CurentTime $LogMessage" -Append

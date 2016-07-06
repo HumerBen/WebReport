@@ -4,8 +4,8 @@
 #
 
 # Import modules
-Import-Module $WorkPath\Modules\ModReadConfig\ModReadConfig.psm1
-Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module .\Modules\ModReadConfig\ModReadConfig.psm1
+Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
 
 # Input data to database
 function Fun_InputDatabase

@@ -3,7 +3,7 @@
 #
 
 # Import module ModOutputLogs
-Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
 
 # Function read config
 function Fun_ReadConfig
@@ -12,7 +12,7 @@ function Fun_ReadConfig
 	$ReturnValue=""
 	try
 	{
-		$ConfigContent=Get-Content $WorkPath\Config -ErrorAction Stop
+		$ConfigContent=Get-Content .\Config -ErrorAction Stop
 	}
 	catch
 	{
