@@ -154,8 +154,9 @@ function Fun_BrokerSession
 
 # ------ DDC Main ------
 
-# Set runtime Location
-Set-Location "C:\WebReport"
+# Starting
+$LogMessage="$(Get-Date) Start......"
+Fun_OutputLogs $LogMessage
 
 # Citrix DDC's computername
 $ComputerNameKey="DDCComputerName"
