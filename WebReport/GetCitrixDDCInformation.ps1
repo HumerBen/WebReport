@@ -2,13 +2,15 @@
 # GetCitrixDDCInformation.ps1
 #
 
+$WorkPath="E:\Scripts\Ps\WebReport\WebReport"
+
 # Import mudlules
-Import-Module .\Modules\ModCredential\ModCredential.psm1
-Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
-Import-Module .\Modules\ModReadConfig\ModReadConfig.psm1
-Import-Module .\Modules\ModInvokeCommand\ModInvokeCommand.psm1
-Import-Module .\Modules\ModInputDatabase\ModInputDatabase.psm1
-Import-Module .\Modules\ModDDCDataOutputDatabase\ModDDCDataOutputDatabase.psm1
+Import-Module $WorkPath\Modules\ModCredential\ModCredential.psm1
+Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module $WorkPath\Modules\ModReadConfig\ModReadConfig.psm1
+Import-Module $WorkPath\Modules\ModInvokeCommand\ModInvokeCommand.psm1
+Import-Module $WorkPath\Modules\ModInputDatabase\ModInputDatabase.psm1
+Import-Module $WorkPath\Modules\ModDDCDataOutputDatabase\ModDDCDataOutputDatabase.psm1
 
 # {------ Function Get-BrokerApplicationInstance ------
 
@@ -154,8 +156,8 @@ function Fun_BrokerSession
 
 # ------ DDC Main ------
 
-# Set runtime Location
-Set-Location "C:\WebReport"
+# Start scripts 
+$Logmessage="Starting scripts ......"
 
 # Citrix DDC's computername
 $ComputerNameKey="DDCComputerName"

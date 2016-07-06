@@ -3,7 +3,7 @@
 #
 
 # Imput module ModOutputLogs
-Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
 
 # Function credential module, return credential variable where $UserName and $Password are not null, otherwise return $false	
 function Fun_Credential

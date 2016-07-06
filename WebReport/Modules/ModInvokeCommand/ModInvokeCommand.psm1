@@ -3,7 +3,7 @@
 #
 
 # Import module OutputLog
-Import-Module .\Modules\ModOutputLogs\ModOutputLogs.psm1
+Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
 
 # Function Invoke-Command
 function Fun_InvokeCommand

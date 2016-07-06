@@ -24,11 +24,11 @@ function Fun_OutputConfig
     }
 
     
-    if (Test-Path .\Config)
+    if (Test-Path $WorkPath\Config)
     {
         # Config file is exsit
         $ConfigContentArray=New-Object System.Collections.ArrayList
-        $ConfigContent=Get-Content .\Config
+        $ConfigContent=Get-Content $WorkPath\Config
         
         foreach($Line in $ConfigContent)
         {
@@ -80,14 +80,14 @@ function Fun_OutputConfig
             $ConfigContentArray.Add("$PasswordString=$Password") | Out-Null
         }
 
-		# Output $ConfigContentArray to .\Config
-        Out-File -FilePath .\Config -InputObject $ConfigContentArray
+		# Output $ConfigContentArray to $WorkPath\Config
+        Out-File -FilePath $WorkPath\Config -InputObject $ConfigContentArray
     }
     else
     {
         # Config file is not exsit
-        Out-File -FilePath .\Config -InputObject "$ComputerNameString=$ComputerName" -Append
-        Out-File -FilePath .\Config -InputObject "$UserString=$User" -Append
-        Out-File -FilePath .\Config -InputObject "$PasswordString=$Password" -Append
+        Out-File -FilePath $WorkPath\Config -InputObject "$ComputerNameString=$ComputerName" -Append
+        Out-File -FilePath $WorkPath\Config -InputObject "$UserString=$User" -Append
+        Out-File -FilePath $WorkPath\Config -InputObject "$PasswordString=$Password" -Append
     }
 } 

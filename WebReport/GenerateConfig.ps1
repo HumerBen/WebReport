@@ -3,7 +3,7 @@
 #
 
 # Import output config modules
-Import-Module .\Modules\ModOutputConfig\ModOutputConfig.psm1
+Import-Module $WorkPath\Modules\ModOutputConfig\ModOutputConfig.psm1
 
 # Function Main
 function Fun_Main
