@@ -2,8 +2,6 @@
 # GetCitrixDDCInformation.ps1
 #
 
-$WorkPath="E:\Scripts\Ps\WebReport\WebReport"
-
 # Import mudlules
 Import-Module $WorkPath\Modules\ModCredential\ModCredential.psm1
 Import-Module $WorkPath\Modules\ModOutputLogs\ModOutputLogs.psm1
