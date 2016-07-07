@@ -15,6 +15,9 @@ catch
 	Out-File -InputObject "$(Get-Date) from GetADUsersInformation.ps1 Import-Module fail ,check modules" -FilePath .\GetADUsersInformation.log
 }
 
+# Starting
+$LogMessage="Starting ..."
+Fun_OutputLogs $LogMessage
 
 # Get AD computer name
 $ADComputerNameKey="ADComputerName"
@@ -71,8 +74,8 @@ catch
 # Get $ADGetGroups
 $ADGetGroupsScriptBlock=
 {
-	Import-Module ActiveDirectory;
-	Get-ADGroup -Filter *
+	(Import-Module ActiveDirectory) ;
+	(Get-ADGroup -Filter {GroupScope -eq "Global"} -SearchBase "OU=Wit,DC=witsoft,DC=cn")
 }
 
 try
@@ -85,59 +88,73 @@ catch
 	Fun_OutputLogs $LogMessage
 }
 
+# Delete dbo.DepartmentsUsers content
+
+$Query="
+		use CamcWebReport;
+		truncate table dbo.DepartmentsUsers;"
+Fun_InputDatabase $Query $SQLServerInstance $SQLUserName $SQLPassword $CallFrom
+
+
 # Get users
 foreach ($GroupLine in $ADGroups)
 {
-	$ADGetGroupsScriptBlock=
+	$ADGroupName=$GroupLine.name
+	$ADGetUsersScriptBlock=
 	{
-		Import-Module ActiveDirectory;
-		Get-ADGroupMember $GroupLine
+		(Import-Module ActiveDirectory);
+		(Get-ADGroupMember -Identity $using:ADGroupName)
 	}
+
 	try
 	{
 		$ADUsers=Invoke-Command -ComputerName $ADComputerName -Credential $ADCredential -ScriptBlock $ADGetUsersScriptBlock
+		#Invoke-Command -ComputerName $ADComputerName -Credential $ADCredential -ScriptBlock $ADGetUsersScriptBlock
 	}
 	catch
 	{
-		$LogMessage="Log from GetADUsersInfomation.ps1 Invoke-command Get-ADGroupMenber fail ,获取AD用户失败"
+		$LogMessage="Log from GetADUsersInfomation.ps1 Invoke-command Get-ADGroupMember fail ,获取AD用户失败"
 		Fun_OutputLogs $LogMessage
 	}
 
 	# Output to database
 	foreach ($ADUserLine in $ADUsers)
 	{
-		# Data veriables
-		$ADUsername=$ADUserLine.SamAccountName
-		$ADUserFullname=$ADUserLine.name
-		$ADUid=$ADUserLine.SID
-		$ADDepartment=$GroupLine.name
-		$ADDepartmentGID=$GroupLine.SID
-		$GetTime=Get-Date
+		# Find group members if it is object user then input to database
+		if ($ADUserLine.objectClass -eq "user")
+		{
+			# Data veriables
+			$ADUsername=$ADUserLine.SamAccountName
+			$ADUserFullname=$ADUserLine.name
+			$ADUid=$ADUserLine.SID
+			$ADDepartment=$GroupLine.name
+			$ADDepartmentGID=$GroupLine.SID
+			$GetTime=Get-Date
 
-		# Sql query statements
-		$Query="
-		use WebReport;
-		insert into dbo.DepartmentsUsers
-		(
-			ID,
-			UserName,
-			FullUserName,
-			UID,
-			Department,
-			GID,
-			GetTime
-		)
-		values
-		(
-			'$ADUsername',
-			'$ADUserFullname',
-			'$ADUid',
-			'$ADDepartment',
-			'$ADDepartmentGID',
-			'$GetTime'
-		)"
+			# Sql query statements
+			$Query="
+			use CamcWebReport;
+			insert into dbo.DepartmentsUsers
+			(
+				UserName,
+				FullUserName,
+				UID,
+				Department,
+				GID,
+				GetTime
+			)
+			values
+			(
+				'$ADUsername',
+				'$ADUserFullname',
+				'$ADUid',
+				'$ADDepartment',
+				'$ADDepartmentGID',
+				'$GetTime'
+			)"
 
-		# Output AD data to database
-		Fun_InputDatabase $Query $SQLServerInstance $SQLUserName $SQLPassword $CallFrom
+			# Output AD data to database
+			Fun_InputDatabase $Query $SQLServerInstance $SQLUserName $SQLPassword $CallFrom
+		}
 	}
 }

@@ -59,4 +59,10 @@ use WebReport
 select * from dbo.DepartmentsUsers
 
 use WebReport
+truncate table dbo.DepartmentsUsers
+
+use WebReport
+insert into dbo.DepartmentsUsers values ('aa','dd','df','df','kdj','1929')
+
+use WebReport
 drop table dbo.DepartmentsUsers
